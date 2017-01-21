@@ -5,7 +5,7 @@ var weatherApp = angular.module('weatherApp',['ngRoute' , 'ngResource']);
 //Routes
 //http://api.openweathermap.org/data/2.5/forecast/daily?APPID=d5e8894052fdf1481161c3e6f70ab124&units=metric
 
-weatherApp.config(function ($routeProvider) {
+weatherApp.config(function ($routeProvider , $locationProvider) {
 
     $routeProvider
     .when('/', {
@@ -14,8 +14,11 @@ weatherApp.config(function ($routeProvider) {
     })
     .when('/forecast', {
       templateUrl:'pages/forecast.htm',
-      controller:'forecastController'
+      controller:'forecastController',
     });
+     $locationProvider.hashPrefix('');
+
+
 });
 
 //services
@@ -25,24 +28,31 @@ weatherApp.service('cityService' ,function() {
 
 
 //controllers
-weatherApp.controller('homeController' ,['$scope', '$http','cityService', function($scope , $http, cityService) {
+weatherApp.controller('homeController' ,['$scope', 'cityService', function($scope , cityService) {
 
-$scope.weatherResult={};
+
   $scope.city = cityService.city;
   $scope.$watch('city' , function () {
     cityService.city = $scope.city;
   });
-
-$scope.weatherResult=$http({
-    url: "http://api.openweathermap.org/data/2.5/forecast/daily?APPID=d5e8894052fdf1481161c3e6f70ab124&units=metric",
-    method: "GET",
-    params: {q: $scope.city, cnt:2}
- })
-  console.log($scope.weatherResult);
-
 }]);
 
 
-weatherApp.controller('forecastController' ,['$scope', 'cityService', function($scope , cityService) {
+weatherApp.controller('forecastController' ,['$scope', '$http','cityService', function($scope , $http, cityService) {
   $scope.city = cityService.city;
+  console.log($scope.city);
+  $http({
+      url: "http://api.openweathermap.org/data/2.5/forecast/daily?APPID=d5e8894052fdf1481161c3e6f70ab124&units=metric",
+      method: "GET",
+      params: {q: $scope.city, cnt:7}
+   }).then(function(response){
+        $scope.weatherResults = response.data; //IF I LOG THIS IT WORKS
+        console.log($scope.weatherResults);
+   });
+
+   $scope.convertDate = function(dt){
+   return new Date(dt*1000);
+   }
+
+
 }]);

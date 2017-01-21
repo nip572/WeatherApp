@@ -1,1 +1,15 @@
-Forecast for {{city}}
+<h3>Forecast for {{city}}, {{weatherResults.city.country}} </h3>
+<br>
+
+<div ng-repeat = "w in weatherResults.list" class="container">
+    <div class="col-sm-6 col-xs-10" id="maptoc">
+    <div class="panel panel-default">
+        <div class="panel-heading">{{convertDate(w.dt) | date : 'EEEE, MMM d, y'}}</div>
+        <div class="panel-body">
+            <h5 ng-repeat = "d in w.weather">Description: {{d.description}} </h5>
+            <h5>Maximum Temperature  : {{w.temp.max}}°C</h5>
+            <h5>Minimum Temperature : {{w.temp.min}}°C</h5>
+        </div>
+    </div>
+</div>
+</div>
