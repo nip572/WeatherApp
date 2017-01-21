@@ -1,12 +1,7 @@
 //module
 var weatherApp = angular.module('weatherApp',['ngRoute' , 'ngResource']);
-
-
 //Routes
-//http://api.openweathermap.org/data/2.5/forecast/daily?APPID=24&units=metric
-
 weatherApp.config(function ($routeProvider , $locationProvider) {
-
     $routeProvider
     .when('/', {
       templateUrl:'pages/home.htm',
@@ -17,8 +12,6 @@ weatherApp.config(function ($routeProvider , $locationProvider) {
       controller:'forecastController',
     });
      $locationProvider.hashPrefix('');
-
-
 });
 
 //services
@@ -26,11 +19,8 @@ weatherApp.service('cityService' ,function() {
   this.city ="San Jose, CA";
 });
 
-
 //controllers
 weatherApp.controller('homeController' ,['$scope', 'cityService', function($scope , cityService) {
-
-
   $scope.city = cityService.city;
   $scope.$watch('city' , function () {
     cityService.city = $scope.city;
@@ -53,6 +43,4 @@ weatherApp.controller('forecastController' ,['$scope', '$http','cityService', fu
    $scope.convertDate = function(dt){
    return new Date(dt*1000);
    }
-
-
 }]);
