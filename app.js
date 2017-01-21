@@ -3,7 +3,7 @@ var weatherApp = angular.module('weatherApp',['ngRoute' , 'ngResource']);
 
 
 //Routes
-//http://api.openweathermap.org/data/2.5/forecast/daily?APPID=d5e8894052fdf1481161c3e6f70ab124&units=metric
+//http://api.openweathermap.org/data/2.5/forecast/daily?APPID=24&units=metric
 
 weatherApp.config(function ($routeProvider , $locationProvider) {
 
@@ -42,7 +42,7 @@ weatherApp.controller('forecastController' ,['$scope', '$http','cityService', fu
   $scope.city = cityService.city;
   console.log($scope.city);
   $http({
-      url: "http://api.openweathermap.org/data/2.5/forecast/daily?APPID=d5e8894052fdf1481161c3e6f70ab124&units=metric",
+      url: "http://api.openweathermap.org/data/2.5/forecast/daily?APPID=&units=metric",
       method: "GET",
       params: {q: $scope.city, cnt:7}
    }).then(function(response){
